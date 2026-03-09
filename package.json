@@ -1,0 +1,21 @@
+{
+  "name": "simulateur-score-leleu",
+  "version": "1.0.0",
+  "description": "Simulateur interactif du score composite de qualité hospitalière (Leleu et al., 2023). Analyse de sensibilité aux comportements stratégiques.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "vite": "^5.0.0"
+  },
+  "license": "MIT"
+}
