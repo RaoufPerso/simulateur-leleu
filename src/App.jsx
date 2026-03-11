@@ -216,8 +216,8 @@ export default function SimulateurLeleu() {
   const [showMethode, setShowMethode] = useState(false);
 
   // Generate separate markets for CHR and AUTRE (as per Leleu)
-  const marketCHR = useMemo(() => generateMarket(42, 250, "CHR"), []);
-  const marketAUTRE = useMemo(() => generateMarket(99, 250, "AUTRE"), []);
+  const marketCHR = useMemo(() => generateMarket(42, 32, "CHR"), []);
+  const marketAUTRE = useMemo(() => generateMarket(99, 468, "AUTRE"), []);
 
   // Compute thresholds per category
   const computeThresholds = useCallback((market) => {
