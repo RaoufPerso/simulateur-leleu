@@ -26,16 +26,20 @@ function generateMarket(seed, size, category) {
   const rng = mulberry32(seed);
   const means = category === "CHR" ? REAL_PSI_MEANS.CHR : REAL_PSI_MEANS.AUTRE;
   const rhMeans = category === "CHR" ? REAL_RH.CHR : REAL_RH.AUTRE;
+  const gravitySensitivePSI = new Set(["PSI3", "PSI7", "PSI10", "PSI12", "PSI13"]);
   
   const hospitals = [];
   for (let i = 0; i < size; i++) {
     const h = {};
+    // Shared latent severity to correlate patient-dependent PSI across indicators
+    const severityShock = clamp(1 + boxMullerRng(rng) * 0.20, 0.6, 1.8);
     // PSI: log-normal around real means (CV ~0.6)
     for (const [k, mean] of Object.entries(means)) {
       const cv = 0.6;
       const sigma = Math.sqrt(Math.log(1 + cv * cv));
       const mu = Math.log(Math.max(mean, 0.1)) - sigma * sigma / 2;
-      h[k] = Math.max(0, Math.exp(mu + sigma * boxMullerRng(rng)));
+       const baseDraw = Math.max(0, Math.exp(mu + sigma * boxMullerRng(rng)));
+      h[k] = gravitySensitivePSI.has(k) ? baseDraw * severityShock : baseDraw;
     }
     // RH: beta-like around real means
     h.RH7 = Math.max(0, rhMeans.RH7 + (rng() - 0.5) * 0.02);
