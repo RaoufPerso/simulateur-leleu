@@ -2,7 +2,7 @@
 
 Simulateur interactif reproduisant l'algorithme de scoring de qualité hospitalière proposé par Leleu, Vimont, Crapeau et Borella dans le *Journal de Gestion et d'Économie de la Santé* (2023, Vol. 41, n° 1, pp. 45-67).
 
-**[➡️ Accéder au simulateur en ligne](https://VOTRE_USERNAME.github.io/simulateur-score-leleu/)**
+**[➡️ Accéder au simulateur en ligne](https://raoufperso.github.io/simulateur-score-leleu/)**
 
 ## Objectif
 
@@ -26,8 +26,8 @@ Le marché de référence (500 établissements) est généré par distributions 
 ## Installation locale
 
 ```bash
-git clone https://github.com/VOTRE_USERNAME/simulateur-score-leleu.git
-cd simulateur-score-leleu
+git clone https://github.com/RaoufPerso/simulateur-leleu.git
+cd simulateur-leleu
 npm install
 npm run dev
 ```
