@@ -329,7 +329,7 @@ export default function SimulateurLeleu() {
           maxWidth: 1100, margin: "0 auto 20px", padding: 20, background: "white",
           borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 13, color: "#334155", lineHeight: 1.6,
         }}>
-          <strong>Marché de référence :</strong> 250 établissements CHR + 250 autres, générés par distributions log-normales centrées sur les moyennes nationales (article, Tab. VI). Les PSI sont corrélés via un facteur de gravité commun.
+          <strong>Marché de référence :</strong> 32 établissements CHR/CHU + 468 autres, générés par distributions log-normales centrées sur les moyennes observées (article, Tab. VI). Les PSI sont corrélés via un facteur de gravité commun.
           <br /><strong>Seuils :</strong> Q1 (25e percentile) = « Bon », Q3 (75e percentile) = « Discutable », calculés séparément par catégorie.
           <br /><strong>Règles d'agrégation :</strong> Fidèles à l'Encadré 2 de l'article. ≥2 PSI Discutable → sous-score Discutable. ≥2 sous-scores Discutable → score final D (Discutable).
           <br /><strong>Statut épistémologique :</strong> Cette simulation <em>illustre</em> des vulnérabilités théoriques. Elle ne <em>démontre</em> pas leur existence empirique, qui nécessiterait des données SNDS réelles.
@@ -404,14 +404,20 @@ export default function SimulateurLeleu() {
                 <div>PSI 7 réel : <strong>{(realPSI.PSI7 * 3).toFixed(1)}</strong> → déclaré : <strong>{imposteurData.PSI7.toFixed(1)}</strong></div>
                 <div>PSI 13 réel : <strong>{(realPSI.PSI13 * 3).toFixed(1)}</strong> → déclaré : <strong>{imposteurData.PSI13.toFixed(1)}</strong></div>
                 <div style={{ marginTop: 4 }}>
-                  Sans triche : <Badge text={imposteurSansTriche.label} type={imposteurSansTriche.ssSecu} />
-                  → Avec {triche}% : <Badge text={scoreImposteur.label} type={scoreImposteur.ssSecu} />
+                  Sous-score Sécurité — Sans triche : <Badge text={imposteurSansTriche.ssSecu} type={imposteurSansTriche.ssSecu} />
+                  → Avec {triche}% : <Badge text={scoreImposteur.ssSecu} type={scoreImposteur.ssSecu} />
+                </div>
+                <div style={{ marginTop: 4 }}>
+                  Score global — Sans triche : <Badge text={imposteurSansTriche.label} type={imposteurSansTriche.label === "Très Bon" ? "Bon" : imposteurSansTriche.label} />
+                  → Avec {triche}% : <Badge text={scoreImposteur.label} type={scoreImposteur.label === "Très Bon" ? "Bon" : scoreImposteur.label} />
                 </div>
               </div>
             }
             highlight={scoreImposteur.grade !== imposteurSansTriche.grade
-              ? `${triche}% de sous-codage suffit à changer la note de ${imposteurSansTriche.label} à ${scoreImposteur.label}.`
-              : triche > 0 ? `À ${triche}%, le sous-codage ne suffit pas encore à changer la note.` : null}
+              ? `${triche}% de sous-codage suffit à changer le score global de ${imposteurSansTriche.label} à ${scoreImposteur.label}.`
+              : triche > 0
+                ? `Le sous-codage peut améliorer le sous-score Sécurité sans forcément changer le score global (Réhospitalisation et Parcours restent inchangés).`
+                : null}
           />
         </div>
       </div>
