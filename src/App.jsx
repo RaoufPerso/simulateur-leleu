@@ -446,7 +446,7 @@ export default function SimulateurLeleu() {
           <div>
             <strong style={{ color: "#1e3a5f" }}>Aléa moral (Gaming)</strong>
             <p style={{ margin: "4px 0" }}>
-              Le score repose sur des données auto-déclarées (codage PMSI). Un sous-codage modéré peut suffire à franchir les seuils. Comme le note le cours (J3, P4P) : les données doivent pouvoir être « collectées et contrôlées ».
+              Le score repose sur des données auto-déclarées (codage PMSI). Un sous-codage modéré peut suffire à franchir les seuils. Les données doivent pouvoir être « collectées et contrôlées ».
             </p>
           </div>
         </div>
