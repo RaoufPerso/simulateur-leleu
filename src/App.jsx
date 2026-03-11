@@ -415,7 +415,7 @@ export default function SimulateurLeleu() {
             }
             highlight={scoreImposteur.grade !== imposteurSansTriche.grade
               ? `${triche}% de sous-codage suffit à changer le score global de ${imposteurSansTriche.label} à ${scoreImposteur.label}.`
-              : triche > 0
+              : triche > 0 && scoreImposteur.ssSecu !== imposteurSansTriche.ssSecu
                 ? `Le sous-codage peut améliorer le sous-score Sécurité sans forcément changer le score global (Réhospitalisation et Parcours restent inchangés).`
                 : null}
           />
