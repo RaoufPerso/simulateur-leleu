@@ -215,7 +215,7 @@ const ScoreCard = ({ title, icon, description, result, details, highlight }) => 
 // --- MAIN APP ---
 export default function SimulateurLeleu() {
   const [gravite, setGravite] = useState(1.8);
-  const [selectivite, setSelectivite] = useState(0.85);
+  const [selectivite, setSelectivite] = useState(0.50);
   const [triche, setTriche] = useState(0);
   const [showMethode, setShowMethode] = useState(false);
 
@@ -256,18 +256,28 @@ export default function SimulateurLeleu() {
   }, [gravite]);
 
   // SCENARIO B: Selective clinic (evaluated against AUTRE thresholds)
+  // At selectivite=0: average hospital (PSI = AUTRE means × 1.2, mediocre parcours)
+  // At selectivite=1: extreme cherry-picking → near-zero PSI, excellent parcours
   const cliniqueData = useMemo(() => {
-    const factor = 1 - selectivite;
+    const base = REAL_PSI_MEANS.AUTRE;
+    // Baseline: slightly above-average hospital (×1.2) — without selection, nothing special
+    const baselineFactor = 1.2;
+    const factor = baselineFactor * (1 - selectivite);
     return {
-      PSI1: REAL_PSI_MEANS.AUTRE.PSI1 * factor,
-      PSI3: REAL_PSI_MEANS.AUTRE.PSI3 * factor,
-      PSI5: 0, PSI7: REAL_PSI_MEANS.AUTRE.PSI7 * factor,
-      PSI10: REAL_PSI_MEANS.AUTRE.PSI10 * factor,
-      PSI12: REAL_PSI_MEANS.AUTRE.PSI12 * factor,
-      PSI13: REAL_PSI_MEANS.AUTRE.PSI13 * factor,
-      PSI15: REAL_PSI_MEANS.AUTRE.PSI15 * factor,
-      RH7: 0.005 + 0.01 * factor, RH30: 0.02 + 0.03 * factor,
-      INF15: 0.92, MG15: 0.80, SPE60: 0.90,
+      PSI1: base.PSI1 * factor,
+      PSI3: base.PSI3 * factor,
+      PSI5: base.PSI5 * factor,
+      PSI7: base.PSI7 * factor,
+      PSI10: base.PSI10 * factor,
+      PSI12: base.PSI12 * factor,
+      PSI13: base.PSI13 * factor,
+      PSI15: base.PSI15 * factor,
+      // RH: average baseline, improves with selection (simple patients = fewer readmissions)
+      RH7: 0.012 * (1 - selectivite * 0.6), RH30: 0.04 * (1 - selectivite * 0.6),
+      // Parcours: mediocre baseline, improves with selection (simple patients = easier follow-up)
+      INF15: 0.70 + 0.25 * selectivite,
+      MG15: 0.25 + 0.55 * selectivite,
+      SPE60: 0.65 + 0.30 * selectivite,
     };
   }, [selectivite]);
 
